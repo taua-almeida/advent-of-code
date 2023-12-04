@@ -19,6 +19,7 @@
 
 # Go workspace file
 go.work
+go.work.sum
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
