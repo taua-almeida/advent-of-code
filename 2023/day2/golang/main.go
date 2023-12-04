@@ -19,6 +19,7 @@ type Game struct {
 	Counts []CubeCounts
 }
 
+// Used for part1
 const (
 	MaxRedCubes   = 12
 	MaxGreenCubes = 13
@@ -43,6 +44,12 @@ func main() {
 		}
 	}
 	fmt.Println("Sum of playable games IDs:", gameIdSum)
+
+	powerSetSum := 0
+	for _, game := range games {
+		powerSetSum += getHighestCubeCount(game)
+	}
+	fmt.Println("Sum of power set:", powerSetSum)
 }
 
 func parseGames(gameStrings []string) ([]*Game, error) {
@@ -77,7 +84,6 @@ func parseCubeCounts(subset string) (*CubeCounts, error) {
 	counts := CubeCounts{}
 	for _, cube := range cubes {
 		parts := strings.Split(strings.TrimSpace(cube), " ")
-		fmt.Println(parts)
 		if len(parts) != 2 {
 			return nil, fmt.Errorf("invalid cube data: %s", cube)
 		}
@@ -99,6 +105,7 @@ func parseCubeCounts(subset string) (*CubeCounts, error) {
 	return &counts, nil
 }
 
+// Used only for pt1
 func isPlayable(game *Game) bool {
 	for _, counts := range game.Counts {
 		if counts.Red > MaxRedCubes || counts.Green > MaxGreenCubes || counts.Blue > MaxBlueCubes {
@@ -106,4 +113,23 @@ func isPlayable(game *Game) bool {
 		}
 	}
 	return true
+}
+
+// Used only for pt2
+func getHighestCubeCount(game *Game) int {
+	highestHighestRed := 0
+	highestHighestGreen := 0
+	highestHighestBlue := 0
+	for _, counts := range game.Counts {
+		if counts.Red > highestHighestRed {
+			highestHighestRed = counts.Red
+		}
+		if counts.Green > highestHighestGreen {
+			highestHighestGreen = counts.Green
+		}
+		if counts.Blue > highestHighestBlue {
+			highestHighestBlue = counts.Blue
+		}
+	}
+	return highestHighestRed * highestHighestGreen * highestHighestBlue
 }
